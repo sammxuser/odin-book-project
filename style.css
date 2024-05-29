@@ -1,0 +1,81 @@
+.head1 {
+  font-size: 40px;
+  color: #009900;
+  font-weight: bold;
+}
+
+.head2 {
+  font-size: 17px;
+  margin-left: 10px;
+  margin-bottom: 15px;
+}
+
+body {
+  margin: 0 auto;
+  background-position: center;
+  background-size: contain;
+}
+
+.menu {
+  position: sticky;
+  top: 0;
+  background-color: #009900;
+  padding: 10px 0px 10px 0px;
+  color: white;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.menu a {
+  float: left;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.menu-log {
+  right: auto;
+  float: right;
+}
+
+.book-shelf {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+footer {
+  width: 100%;
+  bottom: 0px;
+  background-color: #000;
+  color: #fff;
+  position: absolute;
+  padding-top: 20px;
+  padding-bottom: 50px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.body_sec {
+  margin-left: 20px;
+}
+
+/* Card Formatting */
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}

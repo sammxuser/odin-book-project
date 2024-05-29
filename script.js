@@ -1,3 +1,8 @@
+const artOfGiving = new Book('The Art of Giving', 'John Mainas', 234, false);
+const anotherBook = new Book('Another Book', 'Guess Author', 1000, true);
+
+const myLibrary = [artOfGiving, anotherBook];
+
 // Creating a Book object
 function Book(title, author, pages, isRead) {
   this.title = title;
@@ -19,9 +24,24 @@ function Book(title, author, pages, isRead) {
   };
 }
 
-const artOfGiving = new Book('The Art of Giving', 'John Mainas', 234, false);
-const anotherBook = new Book('Another Book', 'Guess Author', 1000, true);
+function addBookToLibrary(Book) {}
 
-console.log(artOfGiving.info());
+// A function that loops through the library and displays
+function displayBook() {}
 
-console.log(anotherBook.info());
+const bookList = document.querySelector('.book-shelf');
+
+myLibrary.forEach((element) => {
+  const bookItem = document.createElement('div');
+  bookItem.classList = 'card';
+  const cardBody = document.createElement('div');
+  cardBody.classList = 'container';
+  const cardHeader = document.createElement('h4');
+  cardHeader.textContent = element.title;
+  cardBody.appendChild(cardHeader);
+  const cardContent = document.createElement('p');
+  cardContent.textContent = element.author + ', Pages ' + element.pages;
+  cardBody.appendChild(cardContent);
+  bookItem.appendChild(cardBody);
+  bookList.appendChild(bookItem);
+});
