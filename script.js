@@ -62,3 +62,39 @@ addABookLink.addEventListener('click', () => {
   displayBook();
 });
 displayBook();
+
+// Modal
+const showButton = document.getElementById('showDialog');
+const bookDialog = document.getElementById('addBookDialog');
+const outputBox = document.querySelector('output');
+const title = bookDialog.querySelector('#title');
+const author = bookDialog.querySelector('#author');
+const pages = bookDialog.querySelector('#pages');
+const isRead = bookDialog.querySelector('select');
+const confirmBtn = bookDialog.querySelector('#confirmBtn');
+
+// open the <dialog> modally
+showButton.addEventListener('click', () => {
+  bookDialog.showModal();
+});
+
+// get value of 'is-read'
+isRead.addEventListener('change', (e) => {
+  confirmBtn.value = isRead.value;
+});
+
+// "Cancel" button closes the dialog without submitting because of [formmethod='dialog'],
+// triggering a close event
+bookDialog.addEventListener('close', (e) => {
+  outputBox.value =
+    bookDialog === 'default'
+      ? 'No return value'
+      : `ReturnValue: ${displayBook.returnValue}.`; //Have to check for 'default' rather than empty string
+});
+
+// Prevent the 'confirm' button from the default behavior of submitting the form,
+// and close the dialog with 'close()' method, which triggers the 'close' event
+confirmBtn.addEventListener('click', (event) => {
+  event.preventDefault();
+  bookDialog.close(isRead.value);
+});
