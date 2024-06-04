@@ -1,7 +1,9 @@
 const artOfGiving = new Book('The Art of Giving', 'John Mainas', 234, false);
 const anotherBook = new Book('Another Book', 'Guess Author', 1000, true);
+const artOfLiving = new Book('The Art of Giving', 'Mainas', 234, false);
+const anotherManuscript = new Book('Manuscript', 'Gift', 1000, true);
 
-const myLibrary = [artOfGiving, anotherBook];
+const myLibrary = [artOfGiving, anotherBook, artOfLiving, anotherManuscript];
 
 // Creating a Book object
 function Book(title, author, pages, isRead) {
@@ -22,6 +24,10 @@ function Book(title, author, pages, isRead) {
       (this.isRead ? 'read' : 'not yet read')
     );
   };
+
+  this.changeReadStatus = function (status) {
+    return (this.isRead = status);
+  };
 }
 
 function addBookToLibrary() {
@@ -36,9 +42,12 @@ function addBookToLibrary() {
 
 // A function that loops through the library and displays
 function displayBook() {
+  const totalBooks = document.getElementById('total-books');
+  totalBooks.textContent = 'Books(' + myLibrary.length + ')';
+
   const bookList = document.querySelector('.book-shelf');
 
-  myLibrary.forEach((element) => {
+  myLibrary.forEach((element, index) => {
     const bookItem = document.createElement('div');
     bookItem.classList = 'card';
     const cardBody = document.createElement('div');
@@ -47,8 +56,43 @@ function displayBook() {
     cardHeader.textContent = element.title;
     cardBody.appendChild(cardHeader);
     const cardContent = document.createElement('p');
-    cardContent.textContent = element.author + ', Pages ' + element.pages;
+    cardContent.textContent =
+      element.author +
+      ', Pages ' +
+      element.pages +
+      ', ' +
+      (element.isRead === true ? 'Read' : 'Not Read');
+
+    const cardFooter = document.createElement('div');
+    cardFooter.classList = 'actions';
+
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'edit';
+    editBtn.classList = 'material-symbols-outlined';
+    editBtn.value = index;
+    editBtn.addEventListener('click', () => {
+      element.changeReadStatus(!element.isRead);
+      refreshPage();
+    });
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'delete';
+    deleteBtn.classList = 'material-symbols-outlined';
+    deleteBtn.value = index;
+    deleteBtn.addEventListener('click', () => {
+      const text =
+        'Are you sure you want to delete the book -' + element.title + '?';
+      if (confirm(text)) {
+        myLibrary.splice(index, 1);
+      }
+      refreshPage();
+    });
+
+    cardFooter.append(editBtn);
+    cardFooter.append(deleteBtn);
+
     cardBody.appendChild(cardContent);
+    cardBody.appendChild(cardFooter);
     bookItem.appendChild(cardBody);
     bookList.appendChild(bookItem);
   });
@@ -57,12 +101,15 @@ function displayBook() {
 const addABookLink = document.getElementById('add-a-book-link');
 addABookLink.addEventListener('click', () => {
   addBookToLibrary();
-  const bookList = document.querySelector('.book-shelf');
-  bookList.textContent = '';
-  displayBook();
+  refreshPage();
 });
 displayBook();
 
+function refreshPage() {
+  const bookList = document.querySelector('.book-shelf');
+  bookList.textContent = '';
+  displayBook();
+}
 // Modal
 const showButton = document.getElementById('showDialog');
 const bookDialog = document.getElementById('addBookDialog');
@@ -78,18 +125,30 @@ showButton.addEventListener('click', () => {
   bookDialog.showModal();
 });
 
-// get value of 'is-read'
-isRead.addEventListener('change', (e) => {
-  confirmBtn.value = isRead.value;
+confirmBtn.addEventListener('click', () => {
+  const newModalBook = new Book(
+    title.value,
+    author.value,
+    pages.value,
+    isRead.value
+  );
+  myLibrary.push(newModalBook);
+  title.value = '';
+  author.value = '';
+  pages.value = '';
+  isRead.value = '';
+  const bookList = document.querySelector('.book-shelf');
+  bookList.textContent = '';
+  displayBook();
 });
 
 // "Cancel" button closes the dialog without submitting because of [formmethod='dialog'],
 // triggering a close event
 bookDialog.addEventListener('close', (e) => {
-  outputBox.value =
-    bookDialog === 'default'
-      ? 'No return value'
-      : `ReturnValue: ${displayBook.returnValue}.`; //Have to check for 'default' rather than empty string
+  // outputBox.value =
+  //   bookDialog === 'default'
+  //     ? 'No return value'
+  //     : `ReturnValue: ${displayBook.returnValue}.`; //Have to check for 'default' rather than empty string
 });
 
 // Prevent the 'confirm' button from the default behavior of submitting the form,
